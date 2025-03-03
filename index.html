@@ -1,0 +1,65 @@
+function generateUniqueCode() {
+    return 'ALUNO-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function submitForm() {
+    const nome = document.getElementById('nome').value;
+    const idade = document.getElementById('idade').value;
+    const descricao = document.getElementById('descricao').value;
+    const uniqueCode = generateUniqueCode();
+
+    const formData = {
+        nome: nome,
+        idade: idade,
+        descricao: descricao,
+        dataMatricula: new Date().toLocaleDateString('pt-BR')
+    };
+    localStorage.setItem(uniqueCode, JSON.stringify(formData));
+
+    alert(`Cadastro realizado com sucesso! Seu ID é: ${uniqueCode}`);
+    document.getElementById('formCadastro').reset();
+    return false;
+}
+
+function login() {
+    const loginID = document.getElementById('loginID').value.trim();
+    const formData = localStorage.getItem(loginID);
+
+    if (loginID === '1316') {
+        alert('Login como Administrador');
+        return;
+    } 
+
+    if (formData) {
+        const data = JSON.parse(formData);
+        document.getElementById('dashboardNome').textContent = data.nome;
+        document.getElementById('dataMatricula').textContent = data.dataMatricula;
+        document.getElementById('cadastroArea').style.display = 'none';
+        document.getElementById('loginArea').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    } else {
+        alert('ID de acesso inválido!');
+    }
+}
+
+function gerarBoleto() {
+    alert('Boleto gerado com sucesso!');
+}
+
+function acessarCurso(curso) {
+    alert(`Acessando curso de ${curso}`);
+}
+
+function voltarParaCadastro() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('cadastroArea').style.display = 'block';
+    document.getElementById('loginArea').style.display = 'block';
+}
+
+function logout() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('cadastroArea').style.display = 'block';
+    document.getElementById('loginArea').style.display = 'block';
+    document.getElementById('loginID').value = '';
+    alert('Você saiu do sistema.');
+}
